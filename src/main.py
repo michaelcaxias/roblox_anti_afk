@@ -1,22 +1,30 @@
 import pyautogui
 import pygetwindow as gw
-import time
 
-def download_mod():
+import utils.keyboard_interaction as ki
+from utils.keys import hex_key
+
+def active_roblox_window():
     try:
-      window = gw.getWindowsWithTitle('Browser Window')[0]
-      image = 'src/images/button.png'
-      x, y, _, _ = pyautogui.locateOnScreen(image, region=(window.left, window.top, window.width, window.height))
-      print(f"Download button found x={x}, y={y}")
+        roblox_window = gw.getWindowsWithTitle('Roblox')[0]
 
-      pyautogui.click(x, y)
-    except pyautogui.ImageNotFoundException:
-      print("Download button not found")
+        left = roblox_window.left
+        top = roblox_window.top
+        width = roblox_window.width
+        height = roblox_window.height
+
+        pyautogui.click(left + width / 2, top + height / 2)
     except IndexError:
-      print("Nexus window not found")
+        print("Roblox window not found")
 
+def move_around_yourself():
+    ki.pressKey(hex_key.get('w'), 0.3)
+    ki.pressKey(hex_key.get('a'), 0.3)
+    ki.pressKey(hex_key.get('s'), 0.3)
+    ki.pressKey(hex_key.get('d'), 0.3)
 
-while True:
-    download_mod()
-    print("Waiting for the download window..")
-    time.sleep(8)
+def move():
+    active_roblox_window()
+    move_around_yourself()
+
+move()
